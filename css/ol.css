@@ -1,3 +1,66 @@
+.ol-button-group {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 2px;
+  position: absolute;
+}
+@media print {
+  .ol-button-group {
+    display: none;
+  }
+}
+.ol-touch .ol-button-group button {
+  font-size: 20px;
+  height: 30px;
+  width: 30px;
+  line-height: 26px;
+}
+.ol-button-group button {
+  background: rgba(0, 60, 136, 0.5);
+  border: none;
+  color: white;
+  font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  width: 22px;
+  height: 22px;
+  margin: 1px;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+  text-indent: 0;
+}
+/* reset extra paddinig on firefox */
+.ol-button-group button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+.ol-button-group button:hover, .ol-button-group button:focus {
+  background-color: rgba(0, 60, 136, 0.7);
+}
+.ol-button-group.ol-vertical button {
+    display: block;
+}
+.ol-button-group.ol-horizontal button {
+    display: inline-block;
+}
+.ol-button-group.ol-vertical button:first-child {
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.ol-button-group.ol-vertical button:last-child {
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.ol-button-group.ol-horizontal button:first-child {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.ol-button-group.ol-horizontal button:last-child {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
 .ol-attribution {
   position: absolute;
   text-align: right;
@@ -31,49 +94,14 @@
   border: 2px solid red;
 }
 .ol-full-screen {
-  background: rgba(255,255,255,0.4);
-  border-radius: 4px;
-  padding: 2px;
-  position: absolute;
   right: 8px;
   top: 8px;
-}
-@media print {
-  .ol-full-screen {
-    display: none;
-  }
-}
-.ol-full-screen button {
-  background: rgba(0,60,136,0.5);
-  border-radius: 2px;
-  border: none;
-  color: white;
-  display: block;
-  font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
-  font-size: 18px;
-  font-weight: bold;
-  height: 22px;
-  line-height: 19px;
-  margin: 1px;
-  padding: 0;
-  text-align: center;
-  width: 22px;
 }
 button.ol-full-screen-false:after {
   content: "\2194";
 }
 button.ol-full-screen-true:after {
   content: "\00d7";
-}
-
-.ol-full-screen div {
-  border-radius: 2px;
-}
-.ol-full-screen div button {
-  border-radius: 2px;
-}
-.ol-full-screen button:hover {
-  background: rgba(0,60,136,0.7);
 }
 .ol-logo {
   bottom: 0;
@@ -126,59 +154,28 @@ button.ol-full-screen-true:after {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 .ol-zoom {
-  position: absolute;
   top: 8px;
   left: 8px;
-  background: rgba(255,255,255,0.4);
-  border-radius: 4px;
-  padding: 2px;
-}
-@media print {
-  .ol-zoom {
-    display: none;
-  }
 }
 .ol-zoom button {
-  display: block;
-  border: none;
-  margin: 1px;
-  padding: 0 0 3px 0;
-  color: white;
-  font-size: 18px;
-  font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
-  font-weight: bold;
-  text-align: center;
-  height: 22px;
-  width: 22px;
   line-height: 19px;
-  background: rgba(0,60,136,0.5);
-}
-.ol-touch .ol-zoom button {
-  font-size: 20px;
-  height: 30px;
-  width: 30px;
-  line-height: 26px;
-}
-.ol-zoom button:hover {
-  background: rgba(0,60,136,0.7);
-}
-
-.ol-zoom-in {
-  border-radius: 2px 2px 0 0;
+  padding: 0 0 3px 0;
 }
 .ol-zoom-in:before {
   content: "+";
 }
-
-.ol-zoom-out {
-  border-radius: 0 0 2px 2px;
-}
 .ol-zoom-out:before {
   content: "\2212";
 }
+.ol-zoom-extent {
+  top: 65px;
+  left: 8px;
+}
+.ol-zoom-extent button:after {
+  content: "\f047";
+}
 
 .ol-zoomslider {
-  position: absolute;
   top: 67px;
   left: 8px;
   background: rgba(255, 255, 255, 0.4);
@@ -201,40 +198,4 @@ button.ol-full-screen-true:after {
   overflow: hidden;
   height: 20px;
   width: 24px;
-}
-.ol-zoom-extent {
-  position: absolute;
-  background: rgba(255,255,255,0.4);
-  border-radius: 4px;
-  padding: 2px;
-}
-@media print {
-  .ol-zoom-extent {
-    display: none;
-  }
-}
-.ol-zoom-extent button {
-  display: block;
-  border: none;
-  margin: 1px;
-  padding: 0 0 3px 0;
-  color: white;
-  font-size: 18px;
-  font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
-  font-weight: bold;
-  text-align: center;
-  height: 22px;
-  width: 22px;
-  line-height: 19px;
-  background-color: rgba(0, 60, 136, 0.5);
-  border-radius: 2px;
-}
-.ol-touch .ol-zoom-extent button {
-  font-size: 20px;
-  height: 30px;
-  width: 30px;
-  line-height: 26px;
-}
-.ol-zoom-extent button:hover {
-  background-color: rgba(0, 60, 136, 0.7);
 }

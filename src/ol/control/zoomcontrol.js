@@ -47,7 +47,8 @@ ol.control.Zoom = function(opt_options) {
     goog.events.EventType.CLICK
   ], this.handleOut_, false, this);
 
-  var cssClasses = className + ' ' + ol.css.CLASS_UNSELECTABLE;
+  var cssClasses = className + ' ' + ol.css.CLASS_UNSELECTABLE +
+      ' ' + ol.css.CLASS_BUTTON_GROUP + ' ' + ol.css.CLASS_VERTICAL;
   var element = goog.dom.createDom(goog.dom.TagName.DIV, cssClasses, inElement,
       outElement);
 
