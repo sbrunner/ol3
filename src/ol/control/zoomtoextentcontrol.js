@@ -31,7 +31,8 @@ ol.control.ZoomToExtent = function(opt_options) {
       'ol-zoom-extent';
 
   var element = goog.dom.createDom(goog.dom.TagName.DIV, {
-    'class': className + ' ' + ol.css.CLASS_UNSELECTABLE
+    'class': className + ' ' + ol.css.CLASS_UNSELECTABLE + ' ' +
+        ol.css.CLASS_BUTTON_GROUP
   });
   var button = goog.dom.createDom(goog.dom.TagName.A, {
     'href': '#zoomExtent',

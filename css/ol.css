@@ -124,21 +124,20 @@ a.ol-full-screen-true:after {
   user-select: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
-.ol-zoom {
+.ol-button-group {
   position: absolute;
-  top: 8px;
   left: 8px;
   background: rgba(255,255,255,0.4);
   border-radius: 4px;
   padding: 2px;
 }
 @media print {
-  .ol-zoom {
+  .ol-button-group {
     display: none;
   }
 }
 
-.ol-zoom a {
+.ol-button-group a {
   display: block;
   margin: 1px;
   padding: 0;
@@ -153,25 +152,29 @@ a.ol-full-screen-true:after {
   line-height: 19px;
   background: rgba(0,60,136,0.5);
 }
-.ol-touch .ol-zoom a {
+.ol-touch .ol-button-group a {
   font-size: 20px;
   height: 30px;
   width: 30px;
   line-height: 26px;
 }
-.ol-zoom a:hover {
+.ol-button-group a:hover {
   background: rgba(0,60,136,0.7);
 }
+.ol-button-group a:first-child {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.ol-button-group a:last-child {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
 
-.ol-zoom-in {
-  border-radius: 2px 2px 0 0;
+.ol-zoom {
+  top: 8px;
 }
 .ol-zoom-in:before {
   content: "+";
-}
-
-.ol-zoom-out {
-  border-radius: 0 0 2px 2px;
 }
 .ol-zoom-out:before {
   content: "\2212";
@@ -202,25 +205,7 @@ a.ol-full-screen-true:after {
   height: 20px;
   width: 24px;
 }
-.ol-zoom-extent {
-  position: absolute;
-  background: rgba(255,255,255,0.4);
-  border-radius: 4px;
-  padding: 2px;
-}
-@media print {
-  .ol-zoom-extent {
-    display: none;
-  }
-}
-.ol-zoom-extent div {
-  cursor: pointer;
-  margin: 1px;
-  height: 22px;
-  width: 22px;
-  background-color: rgba(0, 60, 136, 0.5);
-  border-radius: 2px;
-}
-.ol-zoom-extent div:hover {
-  background-color: rgba(0, 60, 136, 0.7);
+
+div.ol-zoom-extent {
+  top: 65px;
 }

@@ -15,3 +15,11 @@ ol.css.CLASS_UNSELECTABLE = 'ol-unselectable';
  * @const {string}
  */
 ol.css.CLASS_UNSUPPORTED = 'ol-unsupported';
+
+
+/**
+ * The CSS class for button group like zoom control.
+ *
+ * @const {string}
+ */
+ol.css.CLASS_BUTTON_GROUP = 'ol-button-group';
