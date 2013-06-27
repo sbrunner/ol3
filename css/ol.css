@@ -43,8 +43,10 @@
     display: none;
   }
 }
-.ol-full-screen a {
+.ol-full-screen button {
   background: rgba(0,60,136,0.5);
+  border-radius: 2px;
+  border: none;
   color: white;
   display: block;
   font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
@@ -55,23 +57,22 @@
   margin: 1px;
   padding: 0;
   text-align: center;
-  text-decoration: none;
   width: 22px;
 }
-a.ol-full-screen-false:after {
+button.ol-full-screen-false:after {
   content: "\2194";
 }
-a.ol-full-screen-true:after {
+button.ol-full-screen-true:after {
   content: "\00d7";
 }
 
 .ol-full-screen div {
   border-radius: 2px;
 }
-.ol-full-screen div a {
+.ol-full-screen div button {
   border-radius: 2px;
 }
-.ol-full-screen a:hover {
+.ol-full-screen button:hover {
   background: rgba(0,60,136,0.7);
 }
 .ol-logo {
@@ -91,7 +92,7 @@ a.ol-full-screen-true:after {
 .ol-mouse-position {
   top: 8px;
   right: 8px;
-  position: absolute;  
+  position: absolute;
 }
 
 .ol-scale-line {
@@ -137,29 +138,28 @@ a.ol-full-screen-true:after {
     display: none;
   }
 }
-
-.ol-zoom a {
+.ol-zoom button {
   display: block;
+  border: none;
   margin: 1px;
-  padding: 0;
+  padding: 0 0 3px 0;
   color: white;
   font-size: 18px;
   font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
   font-weight: bold;
-  text-decoration: none;
   text-align: center;
   height: 22px;
   width: 22px;
   line-height: 19px;
   background: rgba(0,60,136,0.5);
 }
-.ol-touch .ol-zoom a {
+.ol-touch .ol-zoom button {
   font-size: 20px;
   height: 30px;
   width: 30px;
   line-height: 26px;
 }
-.ol-zoom a:hover {
+.ol-zoom button:hover {
   background: rgba(0,60,136,0.7);
 }
 
@@ -213,15 +213,15 @@ a.ol-full-screen-true:after {
     display: none;
   }
 }
-.ol-zoom-extent a {
+.ol-zoom-extent button {
   display: block;
+  border: none;
   margin: 1px;
-  padding: 0;
+  padding: 0 0 3px 0;
   color: white;
   font-size: 18px;
   font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
   font-weight: bold;
-  text-decoration: none;
   text-align: center;
   height: 22px;
   width: 22px;
@@ -229,12 +229,12 @@ a.ol-full-screen-true:after {
   background-color: rgba(0, 60, 136, 0.5);
   border-radius: 2px;
 }
-.ol-touch .ol-zoom-extent a {
+.ol-touch .ol-zoom-extent button {
   font-size: 20px;
   height: 30px;
   width: 30px;
   line-height: 26px;
 }
-.ol-zoom-extent a:hover {
+.ol-zoom-extent button:hover {
   background-color: rgba(0, 60, 136, 0.7);
 }

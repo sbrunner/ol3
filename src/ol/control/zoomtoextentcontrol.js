@@ -33,9 +33,7 @@ ol.control.ZoomToExtent = function(opt_options) {
   var element = goog.dom.createDom(goog.dom.TagName.DIV, {
     'class': className + ' ' + ol.css.CLASS_UNSELECTABLE
   });
-  var button = goog.dom.createDom(goog.dom.TagName.A, {
-    'href': '#zoomExtent'
-  });
+  var button = goog.dom.createDom(goog.dom.TagName.BUTTON);
   goog.dom.appendChild(element, button);
 
   goog.events.listen(element, [
@@ -57,8 +55,6 @@ goog.inherits(ol.control.ZoomToExtent, ol.control.Control);
  * @private
  */
 ol.control.ZoomToExtent.prototype.handleZoomToExtent_ = function(browserEvent) {
-  // prevent #zoomExtent anchor from getting appended to the url
-  browserEvent.preventDefault();
   var map = this.getMap();
   var view = map.getView().getView2D();
   view.fitExtent(this.extent_, map.getSize());

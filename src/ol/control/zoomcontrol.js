@@ -33,19 +33,15 @@ ol.control.Zoom = function(opt_options) {
 
   var className = goog.isDef(options.className) ? options.className : 'ol-zoom';
 
-  var inElement = goog.dom.createDom(goog.dom.TagName.A, {
-    'href': '#zoomIn',
-    'class': className + '-in'
-  });
+  var inElement = goog.dom.createDom(goog.dom.TagName.BUTTON,
+      className + '-in');
   goog.events.listen(inElement, [
     goog.events.EventType.TOUCHEND,
     goog.events.EventType.CLICK
   ], this.handleIn_, false, this);
 
-  var outElement = goog.dom.createDom(goog.dom.TagName.A, {
-    'href': '#zoomOut',
-    'class': className + '-out'
-  });
+  var outElement = goog.dom.createDom(goog.dom.TagName.BUTTON,
+      className + '-out');
   goog.events.listen(outElement, [
     goog.events.EventType.TOUCHEND,
     goog.events.EventType.CLICK
@@ -76,8 +72,6 @@ goog.inherits(ol.control.Zoom, ol.control.Control);
  * @private
  */
 ol.control.Zoom.prototype.handleIn_ = function(browserEvent) {
-  // prevent #zoomIn anchor from getting appended to the url
-  browserEvent.preventDefault();
   var map = this.getMap();
   map.requestRenderFrame();
   // FIXME works for View2D only
