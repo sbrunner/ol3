@@ -30,8 +30,8 @@ ol.control.Pan = function(opt_options) {
   var northElement, southElement, eastElement, westElement;
 
   if (goog.isDef(options.html)) {
-    /** @type {Element} */
-    element = /** @type {Element} */ (goog.dom.htmlToDocumentFragment(options.html));
+    element = /** @type {Element} */
+        (goog.dom.htmlToDocumentFragment(options.html));
 
     northElement = this.elementCast_(
         goog.dom.findNode(element, function(domElement) {
@@ -170,6 +170,7 @@ ol.control.Pan.prototype.pan_ =
 /**
  * @param {Node|null|undefined} node Node.
  * @return {?Element}
+ * @private
  */
 ol.control.Pan.prototype.elementCast_ = function(node) {
   if (node instanceof Element) {
