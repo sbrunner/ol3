@@ -62,11 +62,11 @@ ol.control.Pan = function(opt_options) {
       'href': '#south',
       'class': className + '-south'
     });
-    westElement = goog.dom.createDom(goog.dom.TagName.A, {
+    eastElement = goog.dom.createDom(goog.dom.TagName.A, {
       'href': '#east',
       'class': className + '-east'
     });
-    eastElement = goog.dom.createDom(goog.dom.TagName.A, {
+    westElement = goog.dom.createDom(goog.dom.TagName.A, {
       'href': '#west',
       'class': className + '-west'
     });

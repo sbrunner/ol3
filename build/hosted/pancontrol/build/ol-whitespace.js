@@ -24218,7 +24218,7 @@ ol.control.FullScreen = function(opt_options) {
   var aElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#fullScreen", "class":this.cssClassName_ + "-" + goog.dom.fullscreen.isFullScreen()});
   goog.events.listen(aElement, [goog.events.EventType.CLICK, goog.events.EventType.TOUCHEND], this.handleClick_, false, this);
   goog.events.listen(goog.global.document, goog.dom.fullscreen.EventType.CHANGE, this.handleFullScreenChange_, false, this);
-  var element = goog.dom.createDom(goog.dom.TagName.DIV, {"class":this.cssClassName_ + " " + ol.css.CLASS_UNSELECTABLE + (!goog.dom.fullscreen.isSupported() ? ol.css.CLASS_UNSUPPORTED : "")}, aElement);
+  var element = goog.dom.createDom(goog.dom.TagName.DIV, {"class":this.cssClassName_ + " " + ol.css.CLASS_UNSELECTABLE + " " + (!goog.dom.fullscreen.isSupported() ? ol.css.CLASS_UNSUPPORTED : "")}, aElement);
   goog.base(this, {element:element, map:options.map, target:options.target});
   this.keys_ = goog.isDef(options.keys) ? options.keys : false
 };
@@ -24398,8 +24398,8 @@ ol.control.Pan = function(opt_options) {
     var className = goog.isDef(options.className) ? options.className : "ol-pan";
     northElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#north", "class":className + "-north"});
     southElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#south", "class":className + "-south"});
-    westElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#east", "class":className + "-east"});
-    eastElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#west", "class":className + "-west"});
+    eastElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#east", "class":className + "-east"});
+    westElement = goog.dom.createDom(goog.dom.TagName.A, {"href":"#west", "class":className + "-west"});
     var span1Element = goog.dom.createDom(goog.dom.TagName.SPAN, "", northElement, eastElement);
     var span2Element = goog.dom.createDom(goog.dom.TagName.SPAN, "", westElement, southElement);
     var cssClasses = className + " " + ol.css.CLASS_UNSELECTABLE;
@@ -29245,7 +29245,7 @@ ol.parser.ogc.Filter_v1 = function() {
             expressions.push(obj.property)
           }else {
             if(goog.isDef(obj.value)) {
-              return obj.value
+              expressions.push(obj.value)
             }
           }
           break;
