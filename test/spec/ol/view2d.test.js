@@ -102,6 +102,76 @@ describe('ol.View2D', function() {
       expect(view.getZoom()).to.be(undefined);
     });
   });
+
+  describe('fitCoordinates', function() {
+    var view;
+    beforeEach(function() {
+      view = new ol.View2D({
+        resolutions: [200, 100, 50, 20, 10, 5, 2, 1]
+      });
+    });
+    it('fit correctly to the coordinates', function() {
+      view.fitCoordinates(
+          [[6000, 46000], [6000, 47100], [7000, 46000]],
+          [200, 200],
+          {
+            padding: [100, 100, 0, 0],
+            constrainResolution: false
+          }
+      );
+      expect(view.getResolution()).to.be(11);
+      expect(view.getCenter()[0]).to.be(5950);
+      expect(view.getCenter()[1]).to.be(47100);
+
+      view.fitCoordinates(
+          [[6000, 46000], [6000, 47100], [7000, 46000]],
+          [200, 200],
+          {
+            padding: [100, 100, 0, 0]
+          }
+      );
+      expect(view.getResolution()).to.be(20);
+      expect(view.getCenter()[0]).to.be(5500);
+      expect(view.getCenter()[1]).to.be(47550);
+
+      view.fitCoordinates(
+          [[6000, 46000], [6000, 47100], [7000, 46000]],
+          [200, 200],
+          {
+            padding: [100, 100, 0, 0],
+            nearest: true
+          }
+      );
+      expect(view.getResolution()).to.be(10);
+      expect(view.getCenter()[0]).to.be(6000);
+      expect(view.getCenter()[1]).to.be(47050);
+
+      view.fitCoordinates(
+          [[6000, 46000]],
+          [200, 200],
+          {
+            padding: [100, 100, 0, 0],
+            minResolution: 2
+          }
+      );
+      expect(view.getResolution()).to.be(2);
+      expect(view.getCenter()[0]).to.be(5900);
+      expect(view.getCenter()[1]).to.be(46100);
+
+      view.setRotation(Math.PI / 4);
+      view.fitCoordinates(
+          [[6000, 46000], [6000, 47100], [7000, 46000]],
+          [200, 200],
+          {
+            padding: [100, 100, 0, 0],
+            constrainResolution: false
+          }
+      );
+      expect(view.getResolution()).to.be(14.849242404917458);
+      expect(view.getCenter()[0]).to.be(5200.000000000011);
+      expect(view.getCenter()[1]).to.be(46300);
+    });
+  });
 });
 
 goog.require('ol.View2D');
