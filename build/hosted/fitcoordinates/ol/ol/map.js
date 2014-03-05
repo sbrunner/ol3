@@ -217,18 +217,6 @@ ol.Map = function(options) {
 
   /**
    * @private
-   * @type {number}
-   */
-  this.freezeRenderingCount_ = 0;
-
-  /**
-   * @private
-   * @type {boolean}
-   */
-  this.dirty_ = false;
-
-  /**
-   * @private
    * @type {goog.events.Key}
    */
   this.viewPropertyListenerKey_ = null;
@@ -473,7 +461,7 @@ ol.Map.prototype.addOverlay = function(overlay) {
  * @todo stability experimental
  */
 ol.Map.prototype.beforeRender = function(var_args) {
-  this.requestRenderFrame();
+  this.render();
   Array.prototype.push.apply(this.preRenderFunctions_, arguments);
 };
 
@@ -523,14 +511,6 @@ ol.Map.prototype.forEachFeatureAtPixel =
   return this.renderer_.forEachFeatureAtPixel(
       coordinate, this.frameState_, callback, thisArg,
       layerFilter, thisArg2);
-};
-
-
-/**
- * Freeze rendering.
- */
-ol.Map.prototype.freezeRendering = function() {
-  ++this.freezeRenderingCount_;
 };
 
 
@@ -909,7 +889,7 @@ ol.Map.prototype.handleTargetChanged_ = function() {
  * @private
  */
 ol.Map.prototype.handleTileChange_ = function() {
-  this.requestRenderFrame();
+  this.render();
 };
 
 
@@ -1011,29 +991,27 @@ ol.Map.prototype.isDef = function() {
 
 
 /**
+ * @return {boolean} Is rendered.
+ */
+ol.Map.prototype.isRendered = function() {
+  return !goog.isNull(this.frameState_);
+};
+
+
+/**
  * Render.
  */
-ol.Map.prototype.render = function() {
-  if (this.animationDelay_.isActive()) {
-    // pass
-  } else if (this.freezeRenderingCount_ === 0) {
-    this.animationDelay_.fire();
-  } else {
-    this.dirty_ = true;
-  }
+ol.Map.prototype.renderSync = function() {
+  this.animationDelay_.fire();
 };
 
 
 /**
  * Request that renderFrame_ be called some time in the future.
  */
-ol.Map.prototype.requestRenderFrame = function() {
-  if (this.freezeRenderingCount_ === 0) {
-    if (!this.animationDelay_.isActive()) {
-      this.animationDelay_.start();
-    }
-  } else {
-    this.dirty_ = true;
+ol.Map.prototype.render = function() {
+  if (!this.animationDelay_.isActive()) {
+    this.animationDelay_.start();
   }
 };
 
@@ -1114,10 +1092,6 @@ ol.Map.prototype.renderFrame_ = function(time) {
 
   var i, ii, view2DState;
 
-  if (this.freezeRenderingCount_ !== 0) {
-    return;
-  }
-
   /**
    * Check whether a size has non-zero width and height.  Note that this
    * function is here because the compiler doesn't recognize that size is
@@ -1194,11 +1168,10 @@ ol.Map.prototype.renderFrame_ = function(time) {
 
   this.frameState_ = frameState;
   this.renderer_.renderFrame(frameState);
-  this.dirty_ = false;
 
   if (!goog.isNull(frameState)) {
     if (frameState.animate) {
-      this.requestRenderFrame();
+      this.render();
     }
     Array.prototype.push.apply(
         this.postRenderFunctions_, frameState.postRenderFunctions);
@@ -1278,17 +1251,6 @@ goog.exportProperty(
 
 
 /**
- * Unfreeze rendering.
- */
-ol.Map.prototype.unfreezeRendering = function() {
-  goog.asserts.assert(this.freezeRenderingCount_ > 0);
-  if (--this.freezeRenderingCount_ === 0 && this.dirty_) {
-    this.animationDelay_.fire();
-  }
-};
-
-
-/**
  * Force a recalculation of the map viewport size.  This should be called when
  * third-party code changes the size of the map viewport.
  * @todo stability experimental
@@ -1307,21 +1269,6 @@ ol.Map.prototype.updateSize = function() {
   } else {
     var size = goog.style.getContentBoxSize(targetElement);
     this.setSize([size.width, size.height]);
-  }
-};
-
-
-/**
- * @param {function(this: T)} f Function.
- * @param {T=} opt_this The object to use as `this` in `f`.
- * @template T
- */
-ol.Map.prototype.withFrozenRendering = function(f, opt_this) {
-  this.freezeRendering();
-  try {
-    f.call(opt_this);
-  } finally {
-    this.unfreezeRendering();
   }
 };
 

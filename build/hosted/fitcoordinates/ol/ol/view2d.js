@@ -431,14 +431,14 @@ ol.View2D.prototype.fitExtent = function(extent, size) {
 
 
 /**
- * Fit the given geom based on the given map size and border.
+ * Fit the given geometry based on the given map size and border.
  * Take care on the map angle.
- * @param {Array.<ol.Coordinate>} coordinates Coordinates.
+ * @param {ol.geom.SimpleGeometry} geometry Geometry.
  * @param {ol.Size} size Box pixel size.
- * @param {Object=} opt_options Options.
+ * @param {olx.View2D.fitGeometryOptions=} opt_options Options.
  * @todo stability experimental
  */
-ol.View2D.prototype.fitCoordinates = function(coordinates, size, opt_options) {
+ol.View2D.prototype.fitGeometry = function(geometry, size, opt_options) {
   var options = goog.isDef(opt_options) ? opt_options : {};
 
   var padding = goog.isDef(options.padding) ? options.padding : [0, 0, 0, 0];
@@ -447,6 +447,7 @@ ol.View2D.prototype.fitCoordinates = function(coordinates, size, opt_options) {
   var nearest = goog.isDef(options.nearest) ? options.nearest : false;
   var minResolution = goog.isDef(options.minResolution) ?
       options.minResolution : 0;
+  var coords = geometry.getFlatCoordinates();
 
   // calculate rotated extent
   var angle = this.getRotation();
@@ -456,9 +457,9 @@ ol.View2D.prototype.fitCoordinates = function(coordinates, size, opt_options) {
   var minRotY = +Infinity;
   var maxRotX = -Infinity;
   var maxRotY = -Infinity;
-  for (var i = 0, ii = coordinates.length; i < ii; ++i) {
-    var rotX = coordinates[i][0] * cosAngle - coordinates[i][1] * sinAngle;
-    var rotY = coordinates[i][1] * cosAngle + coordinates[i][0] * sinAngle;
+  for (var i = 0, ii = coords.length / 2; i < ii; ++i) {
+    var rotX = coords[i * 2] * cosAngle - coords[i * 2 + 1] * sinAngle;
+    var rotY = coords[i * 2] * sinAngle + coords[i * 2 + 1] * cosAngle;
     minRotX = Math.min(minRotX, rotX);
     minRotY = Math.min(minRotY, rotY);
     maxRotX = Math.max(maxRotX, rotX);

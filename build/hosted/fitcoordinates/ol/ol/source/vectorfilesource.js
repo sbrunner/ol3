@@ -37,7 +37,7 @@ ol.source.VectorFile = function(opt_options) {
   });
 
   /**
-   * @type {ol.format.Format}
+   * @type {ol.format.Feature}
    * @protected
    */
   this.format = options.format;
@@ -128,11 +128,11 @@ ol.source.VectorFile.prototype.handleXhrIo_ = function(event) {
       goog.asserts.fail();
     }
     goog.dispose(xhrIo);
-    if (goog.isDef(source)) {
+    if (goog.isDefAndNotNull(source)) {
       this.readFeatures_(source);
     } else {
-      goog.asserts.fail();
       this.setState(ol.source.State.ERROR);
+      goog.asserts.fail();
     }
   } else {
     this.setState(ol.source.State.ERROR);
