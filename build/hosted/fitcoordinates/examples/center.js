@@ -66,7 +66,7 @@ zoomtoswitzerlandconstrained.addEventListener('click', function() {
       polygon,
       size,
       {
-        padding: [170, 50, 30, 150],
+        padding: [170, 50, 30, 150]
       }
   );
 }, false);
