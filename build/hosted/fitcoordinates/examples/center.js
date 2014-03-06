@@ -43,14 +43,14 @@ var map = new ol.Map({
 
 var zoomtoswitzerlandbest = document.getElementById('zoomtoswitzerlandbest');
 zoomtoswitzerlandbest.addEventListener('click', function() {
-  var feature = source.getAllFeatures()[0];
+  var feature = source.getFeatures()[0];
   var polygon = /** @type {ol.geom.SimpleGeometry} */ (feature.getGeometry());
   var size = /** @type {ol.Size} */ (map.getSize());
   view.fitGeometry(
       polygon,
       size,
       {
-        padding: [170, 150, 30, 50],
+        padding: [170, 50, 30, 150],
         constrainResolution: false
       }
   );
@@ -59,14 +59,14 @@ zoomtoswitzerlandbest.addEventListener('click', function() {
 var zoomtoswitzerlandconstrained =
     document.getElementById('zoomtoswitzerlandconstrained');
 zoomtoswitzerlandconstrained.addEventListener('click', function() {
-  var feature = source.getAllFeatures()[0];
+  var feature = source.getFeatures()[0];
   var polygon = /** @type {ol.geom.SimpleGeometry} */ (feature.getGeometry());
   var size = /** @type {ol.Size} */ (map.getSize());
   view.fitGeometry(
       polygon,
       size,
       {
-        padding: [170, 150, 30, 50]
+        padding: [170, 50, 30, 150],
       }
   );
 }, false);
@@ -74,14 +74,14 @@ zoomtoswitzerlandconstrained.addEventListener('click', function() {
 var zoomtoswitzerlandnearest =
     document.getElementById('zoomtoswitzerlandnearest');
 zoomtoswitzerlandnearest.addEventListener('click', function() {
-  var feature = source.getAllFeatures()[0];
+  var feature = source.getFeatures()[0];
   var polygon = /** @type {ol.geom.SimpleGeometry} */ (feature.getGeometry());
   var size = /** @type {ol.Size} */ (map.getSize());
   view.fitGeometry(
       polygon,
       size,
       {
-        padding: [170, 150, 30, 50],
+        padding: [170, 50, 30, 150],
         nearest: true
       }
   );
@@ -89,14 +89,14 @@ zoomtoswitzerlandnearest.addEventListener('click', function() {
 
 var zoomtolausanne = document.getElementById('zoomtolausanne');
 zoomtolausanne.addEventListener('click', function() {
-  var feature = source.getAllFeatures()[1];
+  var feature = source.getFeatures()[1];
   var point = /** @type {ol.geom.SimpleGeometry} */ (feature.getGeometry());
   var size = /** @type {ol.Size} */ (map.getSize());
   view.fitGeometry(
       point,
       size,
       {
-        padding: [170, 150, 30, 50],
+        padding: [170, 50, 30, 150],
         minResolution: 50
       }
   );
@@ -104,7 +104,7 @@ zoomtolausanne.addEventListener('click', function() {
 
 var centerlausanne = document.getElementById('centerlausanne');
 centerlausanne.addEventListener('click', function() {
-  var feature = source.getAllFeatures()[1];
+  var feature = source.getFeatures()[1];
   var point = /** @type {ol.geom.Point} */ (feature.getGeometry());
   var size = /** @type {ol.Size} */ (map.getSize());
   view.centerOn(

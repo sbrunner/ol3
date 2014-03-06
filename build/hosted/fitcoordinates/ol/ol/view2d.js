@@ -450,16 +450,18 @@ ol.View2D.prototype.fitGeometry = function(geometry, size, opt_options) {
   var coords = geometry.getFlatCoordinates();
 
   // calculate rotated extent
-  var angle = this.getRotation();
-  var cosAngle = Math.cos(-angle);
-  var sinAngle = Math.sin(-angle);
+  var rotation = this.getRotation();
+  goog.asserts.assert(goog.isDef(rotation));
+  var cosAngle = Math.cos(-rotation);
+  var sinAngle = Math.sin(-rotation);
   var minRotX = +Infinity;
   var minRotY = +Infinity;
   var maxRotX = -Infinity;
   var maxRotY = -Infinity;
-  for (var i = 0, ii = coords.length / 2; i < ii; ++i) {
-    var rotX = coords[i * 2] * cosAngle - coords[i * 2 + 1] * sinAngle;
-    var rotY = coords[i * 2] * sinAngle + coords[i * 2 + 1] * cosAngle;
+  var stride = geometry.getStride();
+  for (var i = 0, ii = coords.length; i < ii; i += stride) {
+    var rotX = coords[i] * cosAngle - coords[i + 1] * sinAngle;
+    var rotY = coords[i] * sinAngle + coords[i + 1] * cosAngle;
     minRotX = Math.min(minRotX, rotX);
     minRotY = Math.min(minRotY, rotY);
     maxRotX = Math.max(maxRotX, rotX);
@@ -483,11 +485,10 @@ ol.View2D.prototype.fitGeometry = function(geometry, size, opt_options) {
   this.setResolution(resolution);
 
   // calculate center
-  cosAngle = Math.cos(angle); // go back to original angle
-  sinAngle = Math.sin(angle);
+  sinAngle = -sinAngle; // go back to original rotation
   var centerRotX = (minRotX + maxRotX) / 2;
   var centerRotY = (minRotY + maxRotY) / 2;
-  centerRotX += (padding[3] - padding[1]) / 2 * resolution;
+  centerRotX += (padding[1] - padding[3]) / 2 * resolution;
   centerRotY += (padding[0] - padding[2]) / 2 * resolution;
   var centerX = centerRotX * cosAngle - centerRotY * sinAngle;
   var centerY = centerRotY * cosAngle + centerRotX * sinAngle;
@@ -506,9 +507,9 @@ ol.View2D.prototype.fitGeometry = function(geometry, size, opt_options) {
  */
 ol.View2D.prototype.centerOn = function(coordinate, size, position) {
   // calculate rotated position
-  var angle = this.getRotation();
-  var cosAngle = Math.cos(-angle);
-  var sinAngle = Math.sin(-angle);
+  var rotation = this.getRotation();
+  var cosAngle = Math.cos(-rotation);
+  var sinAngle = Math.sin(-rotation);
   var rotX = coordinate[0] * cosAngle - coordinate[1] * sinAngle;
   var rotY = coordinate[1] * cosAngle + coordinate[0] * sinAngle;
   var resolution = this.getResolution();
@@ -516,8 +517,7 @@ ol.View2D.prototype.centerOn = function(coordinate, size, position) {
   rotY += (position[1] - size[1] / 2) * resolution;
 
   // go back to original angle
-  cosAngle = Math.cos(angle);
-  sinAngle = Math.sin(angle);
+  sinAngle = -sinAngle; // go back to original rotation
   var centerX = rotX * cosAngle - rotY * sinAngle;
   var centerY = rotY * cosAngle + rotX * sinAngle;
 
