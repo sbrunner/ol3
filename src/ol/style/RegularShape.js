@@ -73,15 +73,15 @@ class RegularShape extends ImageStyle {
 
     /**
      * @private
-     * @type {HTMLCanvasElement}
+     * @type {Object<number, HTMLCanvasElement>}
      */
-    this.canvas_ = null;
+    this.canvas_ = {};
 
     /**
      * @private
-     * @type {HTMLCanvasElement}
+     * @type {Object<number, HTMLCanvasElement>}
      */
-    this.hitDetectionCanvas_ = null;
+    this.hitDetectionCanvas_ = {};
 
     /**
      * @private
@@ -208,7 +208,12 @@ class RegularShape extends ImageStyle {
    * @return {HTMLImageElement|HTMLCanvasElement} Image element.
    */
   getHitDetectionImage(pixelRatio) {
-    return this.hitDetectionCanvas_;
+    if (!this.hitDetectionCanvas_[pixelRatio]) {
+      const renderOptions = this.createRenderOptions();
+
+      this.createHitDetectionCanvas_(renderOptions, pixelRatio);
+    }
+    return this.hitDetectionCanvas_[pixelRatio];
   }
 
   /**
@@ -218,8 +223,7 @@ class RegularShape extends ImageStyle {
    * @api
    */
   getImage(pixelRatio) {
-    //    pixelRatio = 1.3;
-    if (pixelRatio && pixelRatio != 1) {
+    if (!this.canvas_[pixelRatio]) {
       const renderOptions = this.createRenderOptions();
 
       const context = createCanvasContext2D(
@@ -229,9 +233,17 @@ class RegularShape extends ImageStyle {
 
       this.draw_(renderOptions, context, 0, 0, pixelRatio);
 
-      return context.canvas;
+      this.canvas_[pixelRatio] = context.canvas;
     }
-    return this.canvas_;
+    return this.canvas_[pixelRatio];
+  }
+
+  /*
+   * Get the image pixel ratio.
+   * @param {number} pixelRatio Pixel ratio.
+   * */
+  getPixelRatio(pixelRatio) {
+    return pixelRatio;
   }
 
   /**
@@ -387,16 +399,16 @@ class RegularShape extends ImageStyle {
       renderOptions.size
     );
 
-    this.draw_(renderOptions, context, 0, 0);
+    this.draw_(renderOptions, context, 0, 0, 1);
 
-    this.canvas_ = context.canvas;
+    this.canvas_[1] = context.canvas;
 
     // canvas.width and height are rounded to the closest integer
-    const size = this.canvas_.width;
+    const size = context.canvas.width;
     const imageSize = size;
     const displacement = this.getDisplacement();
 
-    this.createHitDetectionCanvas_(renderOptions);
+    this.createHitDetectionCanvas_(renderOptions, 1);
 
     this.anchor_ = [size / 2 - displacement[0], size / 2 + displacement[1]];
     this.size_ = [size, size];
@@ -409,13 +421,13 @@ class RegularShape extends ImageStyle {
    * @param {CanvasRenderingContext2D} context The rendering context.
    * @param {number} x The origin for the symbol (x).
    * @param {number} y The origin for the symbol (y).
-   * @param {number} scale Usualy the device pixel ratio.
+   * @param {number} pixelRatio The pixel ratio.
    */
-  draw_(renderOptions, context, x, y, scale) {
+  draw_(renderOptions, context, x, y, pixelRatio) {
     let i, angle0, radiusC;
 
     // reset transform
-    context.setTransform(scale || 1, 0, 0, scale || 1, 0, 0);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
     // then move to (x, y)
     context.translate(x, y);
@@ -474,8 +486,9 @@ class RegularShape extends ImageStyle {
   /**
    * @private
    * @param {RenderOptions} renderOptions Render options.
+   * @param {number} pixelRatio The pixel ratio.
    */
-  createHitDetectionCanvas_(renderOptions) {
+  createHitDetectionCanvas_(renderOptions, pixelRatio) {
     this.hitDetectionImageSize_ = [renderOptions.size, renderOptions.size];
     this.hitDetectionCanvas_ = this.canvas_;
     if (this.fill_) {
@@ -495,12 +508,12 @@ class RegularShape extends ImageStyle {
         // if a transparent fill style is set, create an extra hit-detection image
         // with a default fill style
         const context = createCanvasContext2D(
-          renderOptions.size,
-          renderOptions.size
+          renderOptions.size * pixelRatio,
+          renderOptions.size * pixelRatio
         );
-        this.hitDetectionCanvas_ = context.canvas;
+        this.hitDetectionCanvas_[pixelRatio] = context.canvas;
 
-        this.drawHitDetectionCanvas_(renderOptions, context, 0, 0);
+        this.drawHitDetectionCanvas_(renderOptions, context, 0, 0, pixelRatio);
       }
     }
   }
@@ -511,10 +524,11 @@ class RegularShape extends ImageStyle {
    * @param {CanvasRenderingContext2D} context The context.
    * @param {number} x The origin for the symbol (x).
    * @param {number} y The origin for the symbol (y).
+   * @param {number} pixelRatio The pixel ratio.
    */
-  drawHitDetectionCanvas_(renderOptions, context, x, y) {
+  drawHitDetectionCanvas_(renderOptions, context, x, y, pixelRatio) {
     // reset transform
-    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
     // then move to (x, y)
     context.translate(x, y);
