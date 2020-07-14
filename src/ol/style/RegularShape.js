@@ -218,6 +218,19 @@ class RegularShape extends ImageStyle {
    * @api
    */
   getImage(pixelRatio) {
+    //    pixelRatio = 1.3;
+    if (pixelRatio && pixelRatio != 1) {
+      const renderOptions = this.createRenderOptions();
+
+      const context = createCanvasContext2D(
+        renderOptions.size * pixelRatio,
+        renderOptions.size * pixelRatio
+      );
+
+      this.draw_(renderOptions, context, 0, 0, pixelRatio);
+
+      return context.canvas;
+    }
     return this.canvas_;
   }
 
@@ -314,7 +327,7 @@ class RegularShape extends ImageStyle {
   /**
    * @protected
    */
-  render() {
+  createRenderOptions() {
     let lineCap = defaultLineCap;
     let lineJoin = defaultLineJoin;
     let miterLimit = 0;
@@ -349,9 +362,9 @@ class RegularShape extends ImageStyle {
       }
     }
 
-    let size = 2 * (this.radius_ + strokeWidth) + 1;
+    const size = 2 * (this.radius_ + strokeWidth) + 1;
 
-    const renderOptions = {
+    return {
       strokeStyle: strokeStyle,
       strokeWidth: strokeWidth,
       size: size,
@@ -361,16 +374,27 @@ class RegularShape extends ImageStyle {
       lineJoin: lineJoin,
       miterLimit: miterLimit,
     };
+  }
 
-    const context = createCanvasContext2D(size, size);
+  /**
+   * @protected
+   */
+  render() {
+    const renderOptions = this.createRenderOptions();
+
+    const context = createCanvasContext2D(
+      renderOptions.size,
+      renderOptions.size
+    );
+
+    this.draw_(renderOptions, context, 0, 0);
+
     this.canvas_ = context.canvas;
 
     // canvas.width and height are rounded to the closest integer
-    size = this.canvas_.width;
+    const size = this.canvas_.width;
     const imageSize = size;
     const displacement = this.getDisplacement();
-
-    this.draw_(renderOptions, context, 0, 0);
 
     this.createHitDetectionCanvas_(renderOptions);
 
@@ -385,11 +409,13 @@ class RegularShape extends ImageStyle {
    * @param {CanvasRenderingContext2D} context The rendering context.
    * @param {number} x The origin for the symbol (x).
    * @param {number} y The origin for the symbol (y).
+   * @param {number} scale Usualy the device pixel ratio.
    */
-  draw_(renderOptions, context, x, y) {
+  draw_(renderOptions, context, x, y, scale) {
     let i, angle0, radiusC;
+
     // reset transform
-    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.setTransform(scale || 1, 0, 0, scale || 1, 0, 0);
 
     // then move to (x, y)
     context.translate(x, y);
